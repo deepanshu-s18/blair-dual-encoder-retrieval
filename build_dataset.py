@@ -9,3 +9,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+def clean_text(text: str) -> str:
+    import re
+    text = text.lower().strip()
+    return re.sub(r'\s+', ' ', text)
