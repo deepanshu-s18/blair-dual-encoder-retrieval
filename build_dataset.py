@@ -14,3 +14,6 @@ def clean_text(text: str) -> str:
     import re
     text = text.lower().strip()
     return re.sub(r'\s+', ' ', text)
+
+def split_data(records, train_pct=0.8, val_pct=0.1):
+    pass
