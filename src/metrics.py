@@ -3,3 +3,6 @@ import numpy as np
 
 def compute_mrr(rankings, targets, k=10):
     pass
+
+def compute_recall(rankings, targets, k=10):
+    pass
