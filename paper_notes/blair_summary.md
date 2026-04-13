@@ -144,3 +144,6 @@ sees DualEncoder win at millions of pairs. Our result validates this implicitly.
 - Corpus:       56,921 unique products
 - Total pairs: ~100k
 - Split: product-level 80/10/10 (zero leakage)
+
+## Contrastive Learning Formulation
+InfoNCE loss over in-batch negatives.
