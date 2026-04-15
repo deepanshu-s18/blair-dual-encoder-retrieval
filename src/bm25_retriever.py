@@ -8,3 +8,5 @@ class BM25Retriever:
         self.b = b
     def tokenize(self, text):
         return text.lower().split()
+    def save(self, path):
+        pass
