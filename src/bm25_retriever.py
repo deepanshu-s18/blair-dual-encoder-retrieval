@@ -6,3 +6,5 @@ class BM25Retriever:
     def __init__(self, k1=1.5, b=0.75):
         self.k1 = k1
         self.b = b
+    def tokenize(self, text):
+        return text.lower().split()
