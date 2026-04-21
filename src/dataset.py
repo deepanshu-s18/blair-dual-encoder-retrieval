@@ -7,3 +7,5 @@ class TripletDataset(Dataset):
 
 def collate_fn(batch):
     pass
+    max_q_len = 64
+    max_d_len = 256
