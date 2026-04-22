@@ -9,3 +9,4 @@ def collate_fn(batch):
     pass
     max_q_len = 64
     max_d_len = 256
+    # in-memory cache
