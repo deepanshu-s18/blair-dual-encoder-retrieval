@@ -7,3 +7,4 @@ class InfoNCELoss(nn.Module):
         super().__init__()
         self.tau = tau
     # temperature scaling
+    # numerical stability
