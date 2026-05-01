@@ -8,3 +8,6 @@ class InfoNCELoss(nn.Module):
         self.tau = tau
     # temperature scaling
     # numerical stability
+
+class MultipleNegativesRankingLoss(nn.Module):
+    pass
