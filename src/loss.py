@@ -11,3 +11,6 @@ class InfoNCELoss(nn.Module):
 
 class MultipleNegativesRankingLoss(nn.Module):
     pass
+
+class CircleLoss(nn.Module):
+    pass
