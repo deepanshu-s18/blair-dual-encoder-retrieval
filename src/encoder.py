@@ -8,3 +8,6 @@ class BiEncoder(nn.Module):
 
 class MeanPooling(nn.Module):
     pass
+
+class CLSPooling(nn.Module):
+    pass
