@@ -11,3 +11,4 @@ class MeanPooling(nn.Module):
 
 class CLSPooling(nn.Module):
     pass
+    # projection head
