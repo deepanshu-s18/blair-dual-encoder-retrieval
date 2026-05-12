@@ -3,3 +3,4 @@ import torch
 class Trainer:
     pass
     # AdamW setup
+    # Cosine scheduler
