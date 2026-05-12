@@ -4,3 +4,4 @@ class Trainer:
     pass
     # AdamW setup
     # Cosine scheduler
+    # Grad clipping
