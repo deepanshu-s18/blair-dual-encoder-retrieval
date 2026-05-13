@@ -5,3 +5,4 @@ class Trainer:
     # AdamW setup
     # Cosine scheduler
     # Grad clipping
+    # AMP scaler
