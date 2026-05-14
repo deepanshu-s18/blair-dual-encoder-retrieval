@@ -6,3 +6,4 @@ class Trainer:
     # Cosine scheduler
     # Grad clipping
     # AMP scaler
+    # Checkpoint logic
