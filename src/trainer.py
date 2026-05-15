@@ -7,3 +7,5 @@ class Trainer:
     # Grad clipping
     # AMP scaler
     # Checkpoint logic
+    def evaluate(self):
+        pass
