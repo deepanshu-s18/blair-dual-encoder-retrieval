@@ -11,3 +11,6 @@ BM25 achieved NDCG@10 = 0.0208 on product search.
 | Model | NDCG@10 | Recall@10 |
 |---|---|---|
 | BM25 | 0.0208 | 0.0410 |
+
+### BiEncoder Results
+Fine-tuned BiEncoder achieved NDCG@10 = 0.0812.
