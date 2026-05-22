@@ -6,3 +6,6 @@ def test_sampling():
 
 def test_infonce():
     pass
+
+def test_trainer_step():
+    pass
