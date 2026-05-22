@@ -12,3 +12,4 @@ class MeanPooling(nn.Module):
 class CLSPooling(nn.Module):
     pass
     # projection head
+# torch.no_grad during eval
