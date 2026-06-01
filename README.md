@@ -14,3 +14,6 @@ BM25 achieved NDCG@10 = 0.0208 on product search.
 
 ### BiEncoder Results
 Fine-tuned BiEncoder achieved NDCG@10 = 0.0812.
+
+## Training Hyperparameters
+Batch size 64, LR 2e-5, Cosine scheduler, tau 0.05.
