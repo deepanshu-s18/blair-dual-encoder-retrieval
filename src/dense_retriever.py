@@ -7,3 +7,5 @@ class DenseRetriever:
         self.index = faiss.IndexFlatIP(dim)
     def search(self, q_emb, k=10):
         pass
+    def save_index(self, path):
+        pass
