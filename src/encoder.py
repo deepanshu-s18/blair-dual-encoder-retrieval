@@ -13,3 +13,6 @@ class CLSPooling(nn.Module):
     pass
     # projection head
 # torch.no_grad during eval
+
+class DualEncoder(nn.Module):
+    pass
