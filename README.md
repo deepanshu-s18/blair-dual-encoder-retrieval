@@ -17,3 +17,6 @@ Fine-tuned BiEncoder achieved NDCG@10 = 0.0812.
 
 ## Training Hyperparameters
 Batch size 64, LR 2e-5, Cosine scheduler, tau 0.05.
+
+### Scaling Analysis
+DualEncoder outperforms BiEncoder at scale >= 50k samples.
