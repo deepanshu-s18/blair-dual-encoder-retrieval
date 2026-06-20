@@ -9,3 +9,6 @@ def test_infonce():
 
 def test_trainer_step():
     pass
+
+def test_dense_faiss():
+    pass
