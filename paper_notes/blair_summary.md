@@ -147,3 +147,6 @@ sees DualEncoder win at millions of pairs. Our result validates this implicitly.
 
 ## Contrastive Learning Formulation
 InfoNCE loss over in-batch negatives.
+
+## Temperature Ablation
+Lower tau focuses gradients on hard negatives.
