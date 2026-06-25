@@ -20,3 +20,6 @@ Batch size 64, LR 2e-5, Cosine scheduler, tau 0.05.
 
 ### Scaling Analysis
 DualEncoder outperforms BiEncoder at scale >= 50k samples.
+
+### Asymmetric DualEncoder
+Separate query and document backbones.
