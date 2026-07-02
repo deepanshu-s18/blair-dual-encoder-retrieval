@@ -23,3 +23,6 @@ DualEncoder outperforms BiEncoder at scale >= 50k samples.
 
 ### Asymmetric DualEncoder
 Separate query and document backbones.
+
+### Hybrid Retrieval
+Hybrid RRF achieves NDCG@10 = 0.0988.
