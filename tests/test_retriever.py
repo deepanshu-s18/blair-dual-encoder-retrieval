@@ -12,3 +12,6 @@ def test_trainer_step():
 
 def test_dense_faiss():
     pass
+
+def test_rrf():
+    pass
