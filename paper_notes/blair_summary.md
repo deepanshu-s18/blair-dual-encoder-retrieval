@@ -150,3 +150,6 @@ InfoNCE loss over in-batch negatives.
 
 ## Temperature Ablation
 Lower tau focuses gradients on hard negatives.
+
+## Hybrid Fusion
+RRF outperforms linear score combination by 8%.
