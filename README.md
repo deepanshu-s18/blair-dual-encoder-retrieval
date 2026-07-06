@@ -26,3 +26,6 @@ Separate query and document backbones.
 
 ### Hybrid Retrieval
 Hybrid RRF achieves NDCG@10 = 0.0988.
+| Model | NDCG@10 |
+|---|---|
+| Hybrid (RRF) | 0.0988 |
