@@ -1,0 +1,18 @@
+{
+  "n10": 1053,
+  "n01": 178,
+  "n_discordant": 1231,
+  "chi2_stat": 620.5329000812347,
+  "p_value": 0.0,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "A_better",
+  "significant": true,
+  "chi2": 620.5329000812347,
+  "n11": 170,
+  "n00": 8571,
+  "n_queries": 9972,
+  "label_a": "BiEncoder",
+  "label_b": "BM25",
+  "metric": "recall@10"
+}
