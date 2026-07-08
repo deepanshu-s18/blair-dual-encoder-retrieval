@@ -1,0 +1,18 @@
+{
+  "n10": 256,
+  "n01": 238,
+  "n_discordant": 494,
+  "chi2_stat": 0.5850202429149798,
+  "p_value": 0.4443512463640099,
+  "significant_95": false,
+  "significant_99": false,
+  "direction": "A_better",
+  "significant": false,
+  "chi2": 0.5850202429149798,
+  "n11": 907,
+  "n00": 8571,
+  "n_queries": 9972,
+  "label_a": "HardNeg",
+  "label_b": "Dual",
+  "metric": "recall@10"
+}
