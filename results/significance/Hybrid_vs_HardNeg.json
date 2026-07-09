@@ -1,0 +1,18 @@
+{
+  "n10": 244,
+  "n01": 358,
+  "n_discordant": 602,
+  "chi2_stat": 21.210963455149503,
+  "p_value": 4.114044576342124e-06,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "B_better",
+  "significant": true,
+  "chi2": 21.210963455149503,
+  "n11": 805,
+  "n00": 8565,
+  "n_queries": 9972,
+  "label_a": "Hybrid",
+  "label_b": "HardNeg",
+  "metric": "recall@10"
+}
