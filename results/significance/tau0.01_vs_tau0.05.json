@@ -1,0 +1,18 @@
+{
+  "n10": 435,
+  "n01": 381,
+  "n_discordant": 816,
+  "chi2_stat": 3.4424019607843137,
+  "p_value": 0.06354324977858072,
+  "significant_95": false,
+  "significant_99": false,
+  "direction": "A_better",
+  "significant": false,
+  "chi2": 3.4424019607843137,
+  "n11": 842,
+  "n00": 8314,
+  "n_queries": 9972,
+  "label_a": "BiEncoder_tau0.01",
+  "label_b": "BiEncoder_tau0.05",
+  "metric": "recall@10"
+}
