@@ -153,3 +153,6 @@ Lower tau focuses gradients on hard negatives.
 
 ## Hybrid Fusion
 RRF outperforms linear score combination by 8%.
+
+## Error Taxonomy
+Dominant errors: Attribute Mismatch (41%), Lexical Mismatch (27%).
