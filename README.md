@@ -35,3 +35,6 @@ Cross-encoder brings +4% NDCG at 28x latency cost.
 
 ### Embedding Geometry
 t-SNE reveals 70.2% tighter clustering after contrastive training.
+
+## Error Taxonomy
+Five distinct failure categories analyzed.
