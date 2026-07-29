@@ -1,0 +1,1 @@
+"""Verify results integrity."""
