@@ -1,0 +1,18 @@
+{
+  "n10": 641,
+  "n01": 532,
+  "n_discordant": 1173,
+  "chi2_stat": 9.94373401534527,
+  "p_value": 0.001613978282510753,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "A_better",
+  "significant": true,
+  "chi2": 9.94373401534527,
+  "n11": 582,
+  "n00": 8217,
+  "n_queries": 9972,
+  "label_a": "BiEncoder",
+  "label_b": "SBERT",
+  "metric": "recall@10"
+}
