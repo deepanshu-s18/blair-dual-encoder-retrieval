@@ -38,3 +38,6 @@ t-SNE reveals 70.2% tighter clustering after contrastive training.
 
 ## Error Taxonomy
 Five distinct failure categories analyzed.
+
+### Modern Baselines
+BGE zero-shot outperforms initial BiEncoder.
