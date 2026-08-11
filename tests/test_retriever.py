@@ -15,3 +15,6 @@ def test_dense_faiss():
 
 def test_rrf():
     pass
+
+def test_suite_full():
+    pass
