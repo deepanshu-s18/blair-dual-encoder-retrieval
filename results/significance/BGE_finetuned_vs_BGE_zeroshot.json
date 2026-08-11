@@ -1,0 +1,18 @@
+{
+  "n10": 802,
+  "n01": 456,
+  "n_discordant": 1258,
+  "chi2_stat": 94.61446740858506,
+  "p_value": 0.0,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "A_better",
+  "significant": true,
+  "chi2": 94.61446740858506,
+  "n11": 864,
+  "n00": 7850,
+  "n_queries": 9972,
+  "label_a": "BGE_finetuned",
+  "label_b": "BGE_zeroshot",
+  "metric": "recall@10"
+}
