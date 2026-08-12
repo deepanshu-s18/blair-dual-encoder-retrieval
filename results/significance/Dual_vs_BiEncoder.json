@@ -1,0 +1,18 @@
+{
+  "n10": 390,
+  "n01": 468,
+  "n_discordant": 858,
+  "chi2_stat": 6.910256410256411,
+  "p_value": 0.008570269992469681,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "B_better",
+  "significant": true,
+  "chi2": 6.910256410256411,
+  "n11": 755,
+  "n00": 8359,
+  "n_queries": 9972,
+  "label_a": "Dual",
+  "label_b": "BiEncoder",
+  "metric": "recall@10"
+}

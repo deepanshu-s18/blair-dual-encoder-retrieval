@@ -1,0 +1,32 @@
+# Large data files — download via build_dataset.py
+data/
+
+# Trained model weights — reproduce via train.py
+artifacts/models/
+# Cache files — auto-regenerated
+artifacts/cache/
+artifacts/bm25_index.pkl
+# Large embedding files — auto-regenerated during eval
+results/*/corpus_embs.npy
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+# Mac
+.DS_Store
+.AppleDouble
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_meta
+# Env
+.env
+venv/
+.venv/
+conda-env/
+# IDE
+.vscode/
+.idea/
+*.swp
+artifacts/bm25_index.pkl
+.DS_Store
