@@ -24,7 +24,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Build Amazon Reviews retrieval dataset")
     parser.add_argument("--data-dir", type=str, default="data/",
                         help="Output directory for parquet files")
-    parser.add_argument("--n-samples", type=int, default=20000,
+    parser.add_argument("--n-samples", type=int, default=100000,
                         help="Number of review-product pairs to sample")
     parser.add_argument("--seed", type=int, default=42,
                         help="Random seed for reproducibility")

@@ -33,7 +33,7 @@ def parse_args():
     p.add_argument("--pooling",      type=str,   default="mean",
                    choices=["mean","cls"])
     p.add_argument("--max-len",      type=int,   default=128)
-    p.add_argument("--epochs",       type=int,   default=5)
+    p.add_argument("--epochs",       type=int,   default=15)
     p.add_argument("--batch-size",   type=int,   default=16)
     p.add_argument("--lr",           type=float, default=2e-5)
     p.add_argument("--warmup-ratio", type=float, default=0.1)
