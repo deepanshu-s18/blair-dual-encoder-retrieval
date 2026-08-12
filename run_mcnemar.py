@@ -14,6 +14,8 @@ McNemar's test (continuity-corrected):
 Interpretation:
     p < 0.05 → statistically significant difference (95% confidence)
     p < 0.01 → highly significant (99% confidence)
+Bonferroni correction (4 tests, α=0.05/4=0.0125):
+    Adjusted significance threshold: p < 0.0125
 
 Usage:
     python run_mcnemar.py \
