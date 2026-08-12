@@ -3,6 +3,12 @@ src/trainer.py
 ==============
 Training loop for BLaIR dual encoder.
 Saves best_model after EVERY epoch so Mac restart never loses progress.
+
+Key BERT fine-tuning practices implemented:
+  - Separate weight decay: no decay for bias and LayerNorm weights
+  - Linear warmup + linear decay schedule
+  - Gradient clipping at max_norm=1.0
+  - Handles both BiEncoder (_encode_single) and DualEncoder (_encode_query/_encode_doc)
 """
 
 import json
@@ -35,11 +41,11 @@ class Trainer:
         else:
             self.device = "cpu"
 
-        self.model      = model.to(self.device)
-        self.loader     = train_loader
-        self.args       = args
-        self.output_dir = output_dir
-        self.epochs     = args.epochs
+        self.model       = model.to(self.device)
+        self.loader      = train_loader
+        self.args        = args
+        self.output_dir  = output_dir
+        self.epochs      = args.epochs
         self.temperature = args.temperature
 
         # AMP disabled for MPS compatibility
@@ -48,11 +54,27 @@ class Trainer:
         total_steps  = len(train_loader) * args.epochs
         warmup_steps = int(total_steps * args.warmup_ratio)
 
-        self.optimizer = AdamW(
-            model.parameters(),
-            lr=args.lr,
-            weight_decay=0.01,
-        )
+        # ── Proper BERT weight decay: no decay for bias and LayerNorm ──
+        # From original BERT paper and HuggingFace best practices.
+        # Applying weight decay to bias/LayerNorm is incorrect and hurts performance.
+        no_decay = ["bias", "LayerNorm.weight"]
+        param_groups = [
+            {
+                "params": [
+                    p for n, p in model.named_parameters()
+                    if not any(nd in n for nd in no_decay)
+                ],
+                "weight_decay": 0.01,
+            },
+            {
+                "params": [
+                    p for n, p in model.named_parameters()
+                    if any(nd in n for nd in no_decay)
+                ],
+                "weight_decay": 0.0,
+            },
+        ]
+        self.optimizer = AdamW(param_groups, lr=args.lr)
 
         warmup = LinearLR(
             self.optimizer,
@@ -80,6 +102,24 @@ class Trainer:
         print(f"[Trainer] Batch size       : {args.batch_size}")
         print(f"[Trainer] Negative mode    : {args.neg_mode}")
 
+    def _encode_batch(self, q_ids, q_mask, p_ids, p_mask):
+        """
+        Encode query and positive doc through the model.
+
+        Handles both architectures:
+          - BiEncoder:   single shared BERT → uses _encode_single()
+          - DualEncoder: separate encoders  → uses _encode_query() / _encode_doc()
+        """
+        if hasattr(self.model, '_encode_query'):
+            # DualEncoder (BLaIR-style): separate query and doc towers
+            q_emb = self.model._encode_query(q_ids, q_mask)
+            p_emb = self.model._encode_doc(p_ids, p_mask)
+        else:
+            # BiEncoder: shared weights for both query and doc
+            q_emb = self.model._encode_single(q_ids, q_mask)
+            p_emb = self.model._encode_single(p_ids, p_mask)
+        return q_emb, p_emb
+
     def _training_step(self, batch):
         self.optimizer.zero_grad()
 
@@ -88,9 +128,8 @@ class Trainer:
         p_ids  = batch['pos_input_ids'].to(self.device)
         p_mask = batch['pos_attn_mask'].to(self.device)
 
-        q_emb = self.model._encode_query(q_ids, q_mask)
-        p_emb = self.model._encode_doc(p_ids, p_mask)
-        loss  = infonce_loss(q_emb, p_emb, temperature=self.temperature)
+        q_emb, p_emb = self._encode_batch(q_ids, q_mask, p_ids, p_mask)
+        loss = infonce_loss(q_emb, p_emb, temperature=self.temperature)
 
         loss.backward()
         torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
@@ -123,7 +162,7 @@ class Trainer:
                 step_count   += 1
 
                 if step % 100 == 0:
-                    avg = running_loss / step_count
+                    avg     = running_loss / step_count
                     elapsed = time.time() - epoch_start
                     print(
                         f"  Epoch {epoch+1}/{self.epochs} | "

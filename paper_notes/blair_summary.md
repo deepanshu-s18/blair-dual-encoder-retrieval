@@ -136,3 +136,11 @@ outperforms more complex architectures. This is a data scale finding — BLaIR p
 sees DualEncoder win at millions of pairs. Our result validates this implicitly.
 
 **Improvement over BM25:** 232% (NDCG@10: 0.0208 → 0.0693)
+
+## Dataset Statistics (Actual Results)
+- Train pairs:  79,703
+- Val pairs:    10,318
+- Test pairs:    9,972
+- Corpus:       56,921 unique products
+- Total pairs: ~100k
+- Split: product-level 80/10/10 (zero leakage)
