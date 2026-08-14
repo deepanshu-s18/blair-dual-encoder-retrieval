@@ -42,3 +42,6 @@ Five distinct failure categories analyzed.
 ### Modern Baselines
 BGE zero-shot outperforms initial BiEncoder.
 | BGE (Fine-tuned) | **0.0995** |
+
+### Business Impact
++10% NDCG translates to estimated +2.8% Conversion Rate.
