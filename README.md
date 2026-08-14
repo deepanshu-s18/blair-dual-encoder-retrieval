@@ -41,3 +41,4 @@ Five distinct failure categories analyzed.
 
 ### Modern Baselines
 BGE zero-shot outperforms initial BiEncoder.
+| BGE (Fine-tuned) | **0.0995** |
