@@ -1,3 +1,6 @@
-category,count,pct
-rare_product,47,94.0
-too_short_query,3,6.0
+category,count,pct,mitigation
+zero_shot_product,22,44.0,"Synthetic query generation (LLM), data augmentation"
+ambiguous_query,12,24.0,"Query expansion, clarification retrieval"
+too_short_query,9,18.0,"Query expansion, BM25 fallback for short queries"
+long_noisy_query,6,12.0,"Query truncation, key phrase extraction"
+near_duplicate_product,1,2.0,"Hard negative mining, product deduplication"

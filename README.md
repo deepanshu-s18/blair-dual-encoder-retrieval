@@ -187,10 +187,17 @@ python generate_table.py --results-dir results/ --output-dir results/
 
 ## Error Analysis (50 worst failures from BiEncoder)
 
-| Category | % of failures | Mitigation |
-|----------|--------------|------------|
-| Rare product (<3 training reviews) | 94% | Data augmentation, LLM-based synthetic queries |
-| Too short query (<5 words) | 6% | Query expansion, BM25 fallback |
+All 50 failure cases share one root cause: **zero training reviews for the true product** (train_count=0). Within that, we identify 5 sub-categories:
+
+| Category | Count | % | Mitigation |
+|----------|-------|---|------------|
+| Zero-shot product (0 training reviews, query ≥16 words) | 22 | 44% | LLM synthetic query generation, data augmentation |
+| Ambiguous query (8–15 words, insufficient context) | 12 | 24% | Query expansion, BM25 fallback |
+| Too short query (<8 words) | 9 | 18% | Query expansion, minimum length filtering |
+| Long noisy query (>150 words, signal buried) | 6 | 12% | Key phrase extraction, query truncation |
+| Near-duplicate product (same category, wrong item) | 1 | 2% | Hard negative mining, product deduplication |
+
+**Key finding:** 44% of failures are products with zero training reviews — no architecture can retrieve what it was never trained on. This is a **data coverage problem**, not a model limitation. The fix is synthetic query generation using LLMs (as proposed in the BLaIR paper) to create training signal for long-tail products.
 
 ---
 
