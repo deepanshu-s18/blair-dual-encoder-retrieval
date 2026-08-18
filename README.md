@@ -342,6 +342,43 @@ Query latency is O(1) with respect to corpus size when using FAISS ANN.
 
 ---
 
+## Seed Stability (BiEncoder, mean pooling, τ=0.05)
+
+| Seed | Hardware | NDCG@10 | Recall@10 | MRR |
+|------|----------|---------|-----------|-----|
+| 42 | Apple M2 MPS | 0.0693 | 0.1226 | 0.0531 |
+| 123 | Kaggle T4 GPU | 0.0697 | 0.1266 | 0.0525 |
+| 456 | Kaggle T4 GPU | 0.0690 | 0.1239 | 0.0523 |
+| **Mean ± Std** | | **0.0693 ± 0.0003** | **0.1244 ± 0.0016** | **0.0526 ± 0.0003** |
+
+Variance is negligible (std NDCG < 0.001) across 3 seeds and 2 different hardware backends (MPS + CUDA), confirming results are stable and reproducible.
+
+---
+
+## Pooling Ablation (BiEncoder, τ=0.05, seed=42, 15 epochs)
+
+| Pooling | NDCG@10 | Recall@10 | MRR |
+|---------|---------|-----------|-----|
+| **Mean (default) ★** | **0.0693** | **0.1226** | **0.0531** |
+| CLS | 0.0658 | 0.1173 | 0.0501 |
+
+Mean pooling outperforms CLS by 0.0035 NDCG points (5.3% relative). CLS is optimized for classification; mean pooling preserves signal from all tokens, better representing variable-length customer reviews.
+
+---
+
+## Temperature Ablation (BiEncoder, mean pooling, seed=42, 15 epochs)
+
+| τ | NDCG@10 | Recall@10 | MRR | Train Loss |
+|---|---------|-----------|-----|------------|
+| **0.01 ★** | **0.0728** | **0.1281** | **0.0559** | 0.0330 |
+| 0.05 (SimCSE default) | 0.0693 | 0.1226 | 0.0531 | 0.0589 |
+| 0.1 | 0.0468 | 0.0862 | 0.0349 | 0.0721 |
+| 0.2 | 0.0254 | 0.0507 | 0.0178 | 0.2851 |
+
+**Finding:** τ=0.01 outperforms the SimCSE-recommended τ=0.05 by 0.0035 NDCG points. Sharper temperature forces harder discrimination between correct and incorrect products. τ=0.2 collapses to near-uniform softmax (training loss=0.2851) — worse than BM25. This is a domain-specific finding: product retrieval benefits from sharper temperature than general sentence similarity tasks.
+
+---
+
 ## References
 
 - **BLaIR**: Li et al., "Bridging Language and Items for Retrieval and Recommendation" (Amazon, 2024). arxiv.org/abs/2403.03952
