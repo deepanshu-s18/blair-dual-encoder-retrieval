@@ -15,7 +15,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
-from transformers import BertModel, AutoTokenizer, AutoTokenizer
+from transformers import AutoModel, AutoTokenizer
 
 
 class MeanPooling(nn.Module):
@@ -84,7 +84,7 @@ class BiEncoder(nn.Module):
         self.normalize = normalize
         self.pooling_type = pooling
 
-        self.bert = BertModel.from_pretrained(model_name or "bert-base-uncased")
+        self.bert = AutoModel.from_pretrained(model_name or "bert-base-uncased")
         self.pooler = _make_pooling(pooling)
         # Shared: both query and doc go through self.bert
         _tok_name = model_name or "bert-base-uncased"
@@ -247,8 +247,8 @@ class DualEncoder(nn.Module):
         self.pooling_type = pooling
 
         # Two independent BERT instances
-        self.text_encoder = BertModel.from_pretrained(model_name or "bert-base-uncased")  # query tower
-        self.item_encoder = BertModel.from_pretrained(model_name or "bert-base-uncased")  # product tower
+        self.text_encoder = AutoModel.from_pretrained(model_name or "bert-base-uncased")  # query tower
+        self.item_encoder = AutoModel.from_pretrained(model_name or "bert-base-uncased")  # product tower
 
         self.query_pooler = _make_pooling(pooling)
         self.doc_pooler   = _make_pooling(pooling)
@@ -384,10 +384,10 @@ class DualEncoder(nn.Module):
         model.normalize  = config["normalize"]
         model.pooling_type = config.get("pooling", "mean")
 
-        model.text_encoder = BertModel.from_pretrained(
+        model.text_encoder = AutoModel.from_pretrained(
             os.path.join(path, "text_encoder")
         )
-        model.item_encoder = BertModel.from_pretrained(
+        model.item_encoder = AutoModel.from_pretrained(
             os.path.join(path, "item_encoder")
         )
         model.query_pooler = _make_pooling(model.pooling_type)
