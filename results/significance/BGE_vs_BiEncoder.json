@@ -1,0 +1,18 @@
+{
+  "n10": 678,
+  "n01": 581,
+  "n_discordant": 1259,
+  "chi2_stat": 7.3200953137410645,
+  "p_value": 0.006818779580861634,
+  "significant_95": true,
+  "significant_99": true,
+  "direction": "A_better",
+  "significant": true,
+  "chi2": 7.3200953137410645,
+  "n11": 642,
+  "n00": 8071,
+  "n_queries": 9972,
+  "label_a": "BGE",
+  "label_b": "BiEncoder",
+  "metric": "recall@10"
+}

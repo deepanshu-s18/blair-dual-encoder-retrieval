@@ -12,6 +12,8 @@ Implements a research-grade dense retrieval system inspired by the BLaIR paper's
 | BM25 Okapi | 0.0208 | 0.0349 | 0.0166 | 0.0104 | 699.2 |
 | Zero-shot BERT | 0.0027 | 0.0057 | 0.0018 | 0.0006 | 4.2 |
 | SBERT (all-MiniLM-L6-v2) | 0.0660 | 0.1117 | 0.0520 | 0.0301 | 0.1 |
+| E5-base-v2 (zero-shot) | 0.0612 | 0.1040 | 0.0481 | 0.0277 | 0.1 |
+| BGE-base-en-v1.5 (zero-shot) | 0.0793 | 0.1324 | 0.0631 | 0.0378 | 0.1 |
 | **BiEncoder ★** | **0.0693** | **0.1226** | **0.0531** | **0.0298** | 11.9 |
 | DualEncoder | 0.0635 | 0.1148 | 0.0478 | 0.0241 | 8.5 |
 | Dual + Hard-Neg | 0.0655 | 0.1166 | 0.0500 | 0.0271 | 4.5 |
@@ -28,6 +30,20 @@ beats general-purpose pre-training on 1B+ pairs for product retrieval.
 the BLaIR-style separate-weight DualEncoder. This is consistent with the BLaIR paper — separate
 encoders only win at millions of training pairs. McNemar test confirms BiEncoder > DualEncoder
 (p=0.0086) and Hard-Neg vs Dual shows no significant difference (p=0.444).
+
+---
+
+## Modern Baseline Comparison (Zero-Shot vs Fine-Tuned)
+
+We benchmark against three strong pretrained sentence encoders, all evaluated zero-shot with the identical FAISS pipeline:
+
+| Model | NDCG@10 | Pretraining | vs Our BiEncoder |
+|-------|---------|-------------|------------------|
+| SBERT (MiniLM) | 0.0660 | 1B+ pairs | We win (p=0.0016) |
+| E5-base-v2 | 0.0612 | Contrastive web-scale | We win (p<0.01) |
+| **BGE-base-en-v1.5** | **0.0793** | Curated retrieval + hard negatives | **BGE wins (p=0.0068)** |
+
+**Honest analysis:** Our bert-base-uncased fine-tuned on 80k in-domain pairs beats SBERT and E5 zero-shot — domain adaptation outperforms general-purpose pretraining for these two. However, BGE-base-en-v1.5 beats our model zero-shot. This is expected: BGE was pretrained specifically for retrieval with large-scale curated query-passage pairs and hard-negative mining, whereas bert-base-uncased had only generic masked-LM pretraining. The result correctly identifies BGE as the superior backbone. The natural next step (future work) is to fine-tune BGE on our in-domain pairs, which should exceed both BGE zero-shot (0.0793) and our current BiEncoder (0.0693) — combining the best backbone with domain adaptation.
 
 ---
 
@@ -182,6 +198,8 @@ python generate_table.py --results-dir results/ --output-dir results/
 | HardNeg vs Dual | p = 0.444 | No significant difference |
 | Hybrid vs HardNeg | p < 0.01 | HardNeg significantly better ✓ |
 | BiEncoder vs SBERT | p = 0.0016 | BiEncoder significantly better ✓ |
+| BiEncoder vs E5-base-v2 | p < 0.01 | BiEncoder significantly better ✓ |
+| BGE-base-en-v1.5 vs BiEncoder | p = 0.0068 | BGE significantly better (see note) |
 
 ---
 
