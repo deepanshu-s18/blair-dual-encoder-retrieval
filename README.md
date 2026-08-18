@@ -375,7 +375,7 @@ Mean pooling outperforms CLS by 0.0035 NDCG points (5.3% relative). CLS is optim
 | 0.1 | 0.0468 | 0.0862 | 0.0349 | 0.0721 |
 | 0.2 | 0.0254 | 0.0507 | 0.0178 | 0.2851 |
 
-**Finding:** τ=0.01 outperforms the SimCSE-recommended τ=0.05 by 0.0035 NDCG points. Sharper temperature forces harder discrimination between correct and incorrect products. τ=0.2 collapses to near-uniform softmax (training loss=0.2851) — worse than BM25. This is a domain-specific finding: product retrieval benefits from sharper temperature than general sentence similarity tasks.
+**Finding:** τ=0.01 outperforms the SimCSE-recommended τ=0.05 by 0.0035 NDCG points, though the difference is not statistically significant (McNemar p=0.0635). τ=0.2 collapses to near-uniform softmax (training loss=0.2851) — worse than BM25. The trend is clear: sharper temperature (lower τ) benefits product retrieval, with τ≥0.1 causing significant degradation. τ=0.05 remains the recommended default given the non-significant gain from τ=0.01.
 
 ---
 
