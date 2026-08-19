@@ -18,3 +18,17 @@ def forward_pass(X, W1, b1, W2, b2):
     a2 = softmax_stable(z2)
     cache = (X, z1, a1, z2, a2, W1, W2, b1, b2)
     return a2, cache
+
+def backward(y_true, cache, lr=0.01):
+    X, z1, a1, z2, a2, W1, W2, b1, b2 = cache
+    B = X.shape[0]
+    dz2 = a2.copy()
+    dz2[np.arange(B), y_true] -= 1
+    dz2 /= B
+    dW2 = a1.T @ dz2
+    db2 = dz2.sum(axis=0)
+    da1 = dz2 @ W2.T
+    dz1 = da1 * (z1 > 0)
+    dW1 = X.T @ dz1
+    db1 = dz1.sum(axis=0)
+    return W1 - lr*dW1, b1 - lr*db1, W2 - lr*dW2, b2 - lr*db2
