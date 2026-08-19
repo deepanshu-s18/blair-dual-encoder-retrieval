@@ -32,3 +32,8 @@ def backward(y_true, cache, lr=0.01):
     dW1 = X.T @ dz1
     db1 = dz1.sum(axis=0)
     return W1 - lr*dW1, b1 - lr*db1, W2 - lr*dW2, b2 - lr*db2
+
+def infonce_numpy(q_embs, p_embs, temperature=0.05):
+    sim = q_embs @ p_embs.T / temperature
+    labels = np.arange(len(q_embs))
+    return cross_entropy_loss(softmax_stable(sim), labels)
