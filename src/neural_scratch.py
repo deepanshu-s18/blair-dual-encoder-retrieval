@@ -37,3 +37,9 @@ def infonce_numpy(q_embs, p_embs, temperature=0.05):
     sim = q_embs @ p_embs.T / temperature
     labels = np.arange(len(q_embs))
     return cross_entropy_loss(softmax_stable(sim), labels)
+
+def mean_pooling_numpy(token_embs, attention_mask):
+    mask = attention_mask[:, :, np.newaxis].astype(float)
+    summed = (token_embs * mask).sum(axis=1)
+    count = mask.sum(axis=1).clip(min=1e-9)
+    return summed / count
