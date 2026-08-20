@@ -1,0 +1,10 @@
+{
+  "ndcg@10": 0.07904433569213615,
+  "recall@10": 0.13588046530284797,
+  "mrr": 0.06188466595355885,
+  "recall@1": 0.03730445246690734,
+  "latency_ms": 309.02883136698006,
+  "retrieval_latency_ms": 0.431792448191484,
+  "rerank_latency_ms": 308.5970389187886,
+  "pipeline": "BGE_finetuned_retrieve100+CrossEncoder_rerank10"
+}

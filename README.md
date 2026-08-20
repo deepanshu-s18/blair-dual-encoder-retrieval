@@ -15,6 +15,7 @@ Implements a research-grade dense retrieval system inspired by the BLaIR paper's
 | E5-base-v2 (zero-shot) | 0.0612 | 0.1040 | 0.0481 | 0.0277 | 0.1 |
 | BGE-base-en-v1.5 (zero-shot) | 0.0793 | 0.1324 | 0.0631 | 0.0378 | 0.1 |
 | **BGE fine-tuned ★** | **0.0995** | **0.1671** | **0.0790** | **0.0470** | 0.1 |
+| BGE + CrossEncoder rerank | 0.0790 | 0.1359 | 0.0619 | 0.0373 | 309 |
 | **BiEncoder ★** | **0.0693** | **0.1226** | **0.0531** | **0.0298** | 11.9 |
 | DualEncoder | 0.0635 | 0.1148 | 0.0478 | 0.0241 | 8.5 |
 | Dual + Hard-Neg | 0.0655 | 0.1166 | 0.0500 | 0.0271 | 4.5 |
@@ -46,6 +47,29 @@ We benchmark against three strong pretrained sentence encoders, all evaluated ze
 | **BGE-base-en-v1.5** | **0.0793** | Curated retrieval + hard negatives | **BGE wins (p=0.0068)** |
 
 **Honest analysis:** Our bert-base-uncased fine-tuned on 80k in-domain pairs beats SBERT and E5 zero-shot — domain adaptation outperforms general-purpose pretraining for these two. However, BGE-base-en-v1.5 beats our model zero-shot. This is expected: BGE was pretrained specifically for retrieval with large-scale curated query-passage pairs and hard-negative mining, whereas bert-base-uncased had only generic masked-LM pretraining. The result correctly identifies BGE as the superior backbone. The natural next step (future work) is to fine-tune BGE on our in-domain pairs, which should exceed both BGE zero-shot (0.0793) and our current BiEncoder (0.0693) — combining the best backbone with domain adaptation.
+
+---
+
+## Why Cross-Encoder Reranker Underperforms
+
+The retrieve-then-rerank pipeline (BGE fine-tuned retrieves top-100 → cross-encoder reranks to top-10) scored lower (0.0790) than BGE fine-tuned alone (0.0995), despite 309ms latency overhead.
+
+Root cause: **domain mismatch.** The cross-encoder (`ms-marco-MiniLM-L-6-v2`) was trained on MS-MARCO web passage retrieval — queries like "what is the capital of France." Our queries are Amazon customer reviews — "This charger is so compact, worked perfectly." The cross-encoder's relevance scoring is miscalibrated for experiential product review language.
+
+Fix: Fine-tune the cross-encoder on Amazon review-product pairs. A domain-adapted cross-encoder would likely recover the reranking gain. This is consistent with findings in domain-specific retrieval literature (Thakur et al., BEIR 2021).
+
+---
+
+## Evaluation Design & Limitations
+
+**Task construction:** We evaluate on a deliberately hard setup — given one customer review, retrieve the single correct product from 56,921 candidates. This differs from production search in two ways:
+
+1. **Binary relevance:** We treat only the exact reviewed product as correct. In reality, multiple products are relevant to any query. Our NDCG is therefore a lower bound on true retrieval quality.
+2. **Single review per query:** Production queries are often keyword-based ("wireless earbuds under 50"). Customer reviews are longer and noisier, making our task harder than typical product search.
+
+This setup is intentional — it isolates the model's ability to bridge vocabulary mismatch between experiential review language and technical product descriptions, which is the core research question. But absolute numbers should be interpreted in this context, not compared directly to standard benchmarks like BEIR or MS-MARCO.
+
+**Data scale:** 80k training pairs vs BLaIR's millions. Our results confirm the architecture works and the relative ordering is meaningful — absolute numbers scale with data.
 
 ---
 
