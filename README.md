@@ -14,17 +14,19 @@ Implements a research-grade dense retrieval system inspired by the BLaIR paper's
 | SBERT (all-MiniLM-L6-v2) | 0.0660 | 0.1117 | 0.0520 | 0.0301 | 0.1 |
 | E5-base-v2 (zero-shot) | 0.0612 | 0.1040 | 0.0481 | 0.0277 | 0.1 |
 | BGE-base-en-v1.5 (zero-shot) | 0.0793 | 0.1324 | 0.0631 | 0.0378 | 0.1 |
+| **BGE fine-tuned ★** | **0.0995** | **0.1671** | **0.0790** | **0.0470** | 0.1 |
 | **BiEncoder ★** | **0.0693** | **0.1226** | **0.0531** | **0.0298** | 11.9 |
 | DualEncoder | 0.0635 | 0.1148 | 0.0478 | 0.0241 | 8.5 |
 | Dual + Hard-Neg | 0.0655 | 0.1166 | 0.0500 | 0.0271 | 4.5 |
 | Hybrid RRF | 0.0611 | 0.1052 | 0.0476 | 0.0265 | 803.3 |
 
-**Key finding:** Fine-tuned BiEncoder achieves **232% improvement over BM25**
-(NDCG@10: 0.0208 → 0.0693, McNemar p<0.01, 9,972 test queries, 56,921-product corpus).
+**Key finding:** Fine-tuned BGE achieves **378% improvement over BM25**
+(NDCG@10: 0.0208 → 0.0995, McNemar p<0.01, 9,972 test queries, 56,921-product corpus).
 
-**External baseline:** BiEncoder also significantly outperforms SBERT (all-MiniLM-L6-v2,
-pre-trained on 1B+ sentence pairs) at p=0.0016 — domain-specific fine-tuning on 80k pairs
-beats general-purpose pre-training on 1B+ pairs for product retrieval.
+**Backbone discovery arc:** Our bert-base BiEncoder (0.0693) beat SBERT and E5 zero-shot but
+lost to BGE zero-shot (0.0793, p=0.0068). We then fine-tuned BGE on our 80k in-domain pairs,
+achieving 0.0995 — significantly better than both BGE zero-shot (p<0.01)
+and our original BiEncoder (p<0.01). Best backbone + domain adaptation compounds.
 
 **Data scale finding:** At 100k training pairs, the simpler shared-weight BiEncoder outperforms
 the BLaIR-style separate-weight DualEncoder. This is consistent with the BLaIR paper — separate
@@ -200,6 +202,9 @@ python generate_table.py --results-dir results/ --output-dir results/
 | BiEncoder vs SBERT | p = 0.0016 | BiEncoder significantly better ✓ |
 | BiEncoder vs E5-base-v2 | p < 0.01 | BiEncoder significantly better ✓ |
 | BGE-base-en-v1.5 vs BiEncoder | p = 0.0068 | BGE significantly better (see note) |
+| BGE fine-tuned vs BiEncoder | p < 0.01 | BGE fine-tuned significantly better ✓ |
+| BGE fine-tuned vs BGE zero-shot | p < 0.01 | Fine-tuning significantly helps ✓ |
+| BGE fine-tuned vs BM25 | p < 0.01 | BGE fine-tuned significantly better ✓ |
 
 ---
 
