@@ -43,3 +43,10 @@ def mean_pooling_numpy(token_embs, attention_mask):
     summed = (token_embs * mask).sum(axis=1)
     count = mask.sum(axis=1).clip(min=1e-9)
     return summed / count
+
+def knn_predict(X_train, y_train, x_new, k=5):
+    distances = np.linalg.norm(X_train - x_new, axis=1)
+    k_indices = np.argsort(distances)[:k]
+    k_labels = y_train[k_indices]
+    values, counts = np.unique(k_labels, return_counts=True)
+    return values[np.argmax(counts)]
