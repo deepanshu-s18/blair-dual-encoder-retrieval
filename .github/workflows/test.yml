@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers==4.38.2 pytest numpy scipy rank_bm25
+          pip install faiss-cpu pyarrow pandas
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+      - name: Verify smoke tests
+        run: |
+          python verify.py

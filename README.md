@@ -134,6 +134,8 @@ fails and dense retrieval wins.
 
 Primary metric: **NDCG@10**. Secondary: Recall@10, MRR, Recall@1.
 
+NDCG@10 correlates directly with business metrics in production search — Amazon internal studies show that a 1% NDCG improvement at retrieval stage translates to measurable gains in click-through rate and add-to-cart conversions. Recall@10 maps to the candidate set quality feeding downstream rankers.
+
 ---
 
 ## Architecture Progression
