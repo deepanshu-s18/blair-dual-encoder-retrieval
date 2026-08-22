@@ -53,3 +53,9 @@ def knn_predict(X_train, y_train, x_new, k=5):
 
 def mse_loss_3d(y_pred, y_true):
     return ((y_pred - y_true) ** 2).mean()
+
+def dropout(x, p=0.5, training=True):
+    if not training:
+        return x
+    mask = (np.random.rand(*x.shape) > p).astype(float)
+    return x * mask / (1 - p)
