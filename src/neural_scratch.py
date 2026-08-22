@@ -50,3 +50,6 @@ def knn_predict(X_train, y_train, x_new, k=5):
     k_labels = y_train[k_indices]
     values, counts = np.unique(k_labels, return_counts=True)
     return values[np.argmax(counts)]
+
+def mse_loss_3d(y_pred, y_true):
+    return ((y_pred - y_true) ** 2).mean()
