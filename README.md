@@ -27,14 +27,14 @@ Implements a research-grade dense retrieval system inspired by the BLaIR paper's
 (NDCG@10: 0.0208 → 0.0995, McNemar p<0.01, 9,972 test queries, 56,921-product corpus).
 
 **Backbone discovery arc:** Our bert-base BiEncoder (0.0693) beat SBERT and E5 zero-shot but
-lost to BGE zero-shot (0.0793, p=0.0068). We then fine-tuned BGE on our 80k in-domain pairs,
+lost to BGE zero-shot (0.0793, p=0.0068). BGE was selected as the fine-tuning backbone because it achieved the highest zero-shot performance (0.0793) among all tested encoders — the strongest starting point maximises the benefit of domain adaptation. We then fine-tuned BGE on our 80k in-domain pairs,
 achieving 0.0995 — significantly better than both BGE zero-shot (p<0.01)
 and our original BiEncoder (p<0.01). Best backbone + domain adaptation compounds.
 
 **Data scale finding:** At 100k training pairs, the simpler shared-weight BiEncoder outperforms
 the BLaIR-style separate-weight DualEncoder. This is consistent with the BLaIR paper — separate
 encoders only win at millions of training pairs. McNemar test confirms BiEncoder > DualEncoder
-(p=0.0086) and Hard-Neg vs Dual shows no significant difference (p=0.444).
+(p=0.0086) and Hard-Neg vs Dual shows no significant difference (p=0.444). The hard negative result is consistent with Xiong et al. (2021, ANCE) — at batch_size=16, each query already sees 15 in-batch negatives; BM25 hard negatives add no measurable signal until the model saturates easy negatives, which requires larger batches or more data.
 
 ---
 
@@ -444,7 +444,7 @@ Mean pooling outperforms CLS by 0.0035 NDCG points (5.3% relative). CLS is optim
 | 0.1 | 0.0468 | 0.0862 | 0.0349 | 0.0721 |
 | 0.2 | 0.0254 | 0.0507 | 0.0178 | 0.2851 |
 
-**Finding:** τ=0.01 outperforms the SimCSE-recommended τ=0.05 by 0.0035 NDCG points, though the difference is not statistically significant (McNemar p=0.0635). τ=0.2 collapses to near-uniform softmax (training loss=0.2851) — worse than BM25. The trend is clear: sharper temperature (lower τ) benefits product retrieval, with τ≥0.1 causing significant degradation. τ=0.05 remains the recommended default given the non-significant gain from τ=0.01.
+**Finding:** τ=0.01 outperforms the SimCSE-recommended τ=0.05 by 0.0035 NDCG points, though the difference is not statistically significant (McNemar p=0.0635). τ=0.2 collapses to near-uniform softmax (training loss=0.2851) — worse than BM25. The trend is clear: sharper temperature (lower τ) benefits product retrieval, with τ≥0.1 causing significant degradation. τ=0.05 remains the recommended default given the non-significant gain from τ=0.01. Note: this ablation was conducted on bert-base-uncased BiEncoder; BGE fine-tuned may have a different optimal τ given its retrieval-specific pretraining — investigating temperature for BGE is a natural future experiment.
 
 ---
 
