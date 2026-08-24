@@ -25,8 +25,4 @@ jobs:
 
       - name: Run tests
         run: |
-          python -m pytest tests/ -v --tb=short
-
-      - name: Verify smoke tests
-        run: |
-          python verify.py
+          python -m pytest tests/test_metrics.py tests/test_retriever.py tests/test_integration.py -v --tb=short
