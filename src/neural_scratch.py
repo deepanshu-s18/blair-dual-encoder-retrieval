@@ -59,3 +59,6 @@ def dropout(x, p=0.5, training=True):
         return x
     mask = (np.random.rand(*x.shape) > p).astype(float)
     return x * mask / (1 - p)
+
+def sigmoid(x):
+    return np.where(x >= 0, 1/(1+np.exp(-np.clip(x, -500, 500))), np.exp(np.clip(x, -500, 500))/(1+np.exp(np.clip(x, -500, 500))))
