@@ -90,3 +90,15 @@ def entropy(class_counts):
     probs = np.array(class_counts) / total
     probs = probs[probs > 0]
     return -np.sum(probs * np.log2(probs))
+
+def kmeans(X, k, n_iter=100, seed=42):
+    rng = np.random.default_rng(seed)
+    centroids = X[rng.choice(len(X), k, replace=False)].copy()
+    for _ in range(n_iter):
+        dists = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+        labels = dists.argmin(axis=1)
+        new_centroids = np.array([X[labels == i].mean(axis=0) if (labels == i).any() else centroids[i] for i in range(k)])
+        if np.allclose(centroids, new_centroids):
+            break
+        centroids = new_centroids
+    return centroids, labels
