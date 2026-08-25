@@ -75,3 +75,18 @@ def binomial_prob(n, k, p):
 
 def binomial_at_least(n, k_min, p):
     return sum(binomial_prob(n, k, p) for k in range(k_min, n + 1))
+
+def gini_index(class_counts):
+    total = sum(class_counts)
+    if total == 0:
+        return 0.0
+    probs = np.array(class_counts) / total
+    return 1.0 - np.sum(probs ** 2)
+
+def entropy(class_counts):
+    total = sum(class_counts)
+    if total == 0:
+        return 0.0
+    probs = np.array(class_counts) / total
+    probs = probs[probs > 0]
+    return -np.sum(probs * np.log2(probs))
