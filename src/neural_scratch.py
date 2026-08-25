@@ -69,3 +69,9 @@ def f_beta(precision, recall, beta=1.0):
     if denom == 0:
         return 0.0
     return (1 + beta_sq) * precision * recall / denom
+
+def binomial_prob(n, k, p):
+    return comb(n, k) * (p ** k) * ((1 - p) ** (n - k))
+
+def binomial_at_least(n, k_min, p):
+    return sum(binomial_prob(n, k, p) for k in range(k_min, n + 1))
