@@ -97,8 +97,24 @@ def kmeans(X, k, n_iter=100, seed=42):
     for _ in range(n_iter):
         dists = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
         labels = dists.argmin(axis=1)
-        new_centroids = np.array([X[labels == i].mean(axis=0) if (labels == i).any() else centroids[i] for i in range(k)])
+        new_centroids = np.array([
+            X[labels == j].mean(axis=0) if (labels == j).any() else centroids[j]
+            for j in range(k)
+        ])
         if np.allclose(centroids, new_centroids):
             break
         centroids = new_centroids
-    return centroids, labels
+    return labels, centroids
+
+def pca(X, n_components):
+    X_c = X - X.mean(axis=0)
+    U, S, Vt = np.linalg.svd(X_c, full_matrices=False)
+    components = Vt[:n_components]
+    X_reduced = X_c @ components.T
+    explained_var = (S ** 2) / (len(X) - 1)
+    explained_var_ratio = explained_var[:n_components] / explained_var.sum()
+    return X_reduced, components, explained_var_ratio
+
+def l2_normalize(x, eps=1e-9):
+    norm = np.linalg.norm(x, axis=-1, keepdims=True).clip(min=eps)
+    return x / norm
