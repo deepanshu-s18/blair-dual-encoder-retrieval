@@ -8,3 +8,6 @@ def test_softmax():
 
 def test_infonce_numpy():
     pass
+
+def test_knn():
+    pass
