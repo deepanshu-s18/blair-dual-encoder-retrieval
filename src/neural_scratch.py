@@ -61,7 +61,7 @@ def dropout(x, p=0.5, training=True):
     return x * mask / (1 - p)
 
 def sigmoid(x):
-    return np.where(x >= 0, 1/(1+np.exp(-x)), np.exp(x)/(1+np.exp(x)))
+    return np.where(x >= 0, 1/(1+np.exp(-np.clip(x, -500, 500))), np.exp(np.clip(x, -500, 500))/(1+np.exp(np.clip(x, -500, 500))))
 
 def f_beta(precision, recall, beta=1.0):
     beta_sq = beta ** 2
