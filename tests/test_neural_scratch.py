@@ -11,3 +11,6 @@ def test_infonce_numpy():
 
 def test_knn():
     pass
+
+def test_pca():
+    pass
