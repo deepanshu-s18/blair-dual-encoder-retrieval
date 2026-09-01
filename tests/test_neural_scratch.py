@@ -14,3 +14,6 @@ def test_knn():
 
 def test_pca():
     pass
+
+def test_metrics():
+    pass
