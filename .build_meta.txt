@@ -1,0 +1,1 @@
+[2026-09-02 16:25:32] test(neural): fix sigmoid numerical stability on extreme positive inputs
