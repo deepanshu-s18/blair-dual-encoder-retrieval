@@ -1,3 +1,4 @@
 [2026-09-02 16:25:32] test(neural): fix sigmoid numerical stability on extreme positive inputs
 [2026-09-16 17:20:24] refactor(retriever): harmonize type annotations across all retriever classes
 [2026-09-17 15:44:32] refactor(encoder): add explicit dtype casting for mixed precision inference
+[2026-09-17 16:46:41] perf(bm25): vectorize inverted index token posting lists
