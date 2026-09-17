@@ -223,5 +223,3 @@ def build_hard_negatives_bm25(
     print(f"[HardNeg] Saved to cache: {cache_path}")
     return hard_negatives
 
-
-# BM25 hard negatives
