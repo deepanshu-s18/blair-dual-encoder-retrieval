@@ -10,10 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -21,8 +21,12 @@ jobs:
         run: |
           pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
           pip install transformers==4.38.2 pytest numpy scipy rank_bm25
-          pip install faiss-cpu pyarrow pandas
+          pip install faiss-cpu pyarrow pandas ruff
+
+      - name: Lint with ruff
+        run: |
+          ruff check src tests
 
       - name: Run tests
         run: |
-          python -m pytest tests/test_metrics.py tests/test_retriever.py tests/test_integration.py -v --tb=short
+          python -m pytest tests/ -v --tb=short

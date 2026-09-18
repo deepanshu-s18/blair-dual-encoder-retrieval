@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 from src.neural_scratch import (
     softmax_stable, cross_entropy_loss, forward_pass, backward,
     infonce_numpy, mean_pooling_numpy, knn_predict, mse_loss_3d,
@@ -50,8 +49,10 @@ def test_forward_pass_shape():
 
 def test_forward_pass_probabilities():
     X  = np.random.randn(4, 8)
-    W1 = np.random.randn(8, 16); b1 = np.zeros(16)
-    W2 = np.random.randn(16, 3); b2 = np.zeros(3)
+    W1 = np.random.randn(8, 16)
+    b1 = np.zeros(16)
+    W2 = np.random.randn(16, 3)
+    b2 = np.zeros(3)
     a2, _ = forward_pass(X, W1, b1, W2, b2)
     assert np.allclose(a2.sum(axis=-1), 1.0, atol=1e-6)
     assert (a2 >= 0).all()
@@ -60,8 +61,10 @@ def test_forward_pass_probabilities():
 def test_backward_reduces_loss():
     np.random.seed(42)
     X  = np.random.randn(8, 4)
-    W1 = np.random.randn(4, 8);  b1 = np.zeros(8)
-    W2 = np.random.randn(8, 3);  b2 = np.zeros(3)
+    W1 = np.random.randn(4, 8)
+    b1 = np.zeros(8)
+    W2 = np.random.randn(8, 3)
+    b2 = np.zeros(3)
     y_true = np.random.randint(0, 3, 8)
     a2, cache = forward_pass(X, W1, b1, W2, b2)
     loss_before = cross_entropy_loss(a2, y_true)

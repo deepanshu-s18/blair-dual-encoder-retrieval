@@ -10,7 +10,7 @@ All metrics handle single-relevant-document setting (one true product per review
 """
 
 import math
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 
 def ndcg_at_k(

@@ -11,11 +11,13 @@ Each __getitem__ returns:
   (query_text, positive_doc_text, negative_doc_text)
 """
 
+import json
+import os
 import random
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import pandas as pd
-import torch
 from torch.utils.data import Dataset
 from transformers import BertTokenizer
 
@@ -159,14 +161,6 @@ def build_hard_negatives_bm25(
     k: int = 3,
     cache_path: str = "artifacts/cache/hard_negatives.json",
 ) -> Dict[str, List[str]]:
-    import json as _json, os as _os
-    from pathlib import Path as _Path
-    # Load from cache if exists — avoids 6hr recomputation
-    if _os.path.exists(cache_path):
-        print(f"[HardNeg] Loading from cache: {cache_path}")
-        with open(cache_path) as _f:
-            return _json.load(_f)
-    print(f"[HardNeg] Cache not found — computing (this takes ~6 hrs)...")
     """
     Precompute BM25 hard negatives for all training queries.
 
@@ -183,10 +177,17 @@ def build_hard_negatives_bm25(
         train_df   : training DataFrame with columns [review_text, product_id]
         corpus_df  : corpus DataFrame with columns [product_id, product_doc]
         k          : number of hard negatives per query
+        cache_path : path to cache file
 
     Returns:
         dict: {product_id: [neg_product_id_1, ..., neg_product_id_k]}
     """
+    # Load from cache if exists — avoids 6hr recomputation
+    if os.path.exists(cache_path):
+        print(f"[HardNeg] Loading from cache: {cache_path}")
+        with open(cache_path) as _f:
+            return json.load(_f)
+    print("[HardNeg] Cache not found — computing (this takes ~6 hrs)...")
     from src.bm25_retriever import BM25Retriever
 
     corpus_ids  = corpus_df["product_id"].tolist()
@@ -216,10 +217,9 @@ def build_hard_negatives_bm25(
 
     print(f"[HardNeg] Done. {no_neg_count} products had no BM25 negatives (will use random).")
     # Save to cache so next run is instant
-    import json as _json, os as _os
-    from pathlib import Path as _Path
-    _Path(cache_path).parent.mkdir(parents=True, exist_ok=True)
-    with open(cache_path, 'w') as _f:
-        _json.dump(hard_negatives, _f)
+    Path(cache_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(cache_path, "w") as _f:
+        json.dump(hard_negatives, _f)
     print(f"[HardNeg] Saved to cache: {cache_path}")
     return hard_negatives
+

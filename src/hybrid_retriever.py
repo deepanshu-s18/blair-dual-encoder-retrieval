@@ -19,7 +19,7 @@ Why RRF works:
   - RRF is robust to score distribution mismatch between systems
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 

@@ -15,7 +15,9 @@ from unittest.mock import MagicMock, patch
 # ══════════════════════════════════════════════════════════
 # DenseRetriever — mocked FAISS search
 # ══════════════════════════════════════════════════════════
+from src.bm25_retriever import BM25Retriever
 from src.dense_retriever import DenseRetriever
+from src.loss import infonce_loss
 
 def _mock_retriever(n=10, dim=64):
     ids  = [f'P{i}' for i in range(n)]
@@ -99,7 +101,7 @@ def test_dense_corpus_embs_float32():
 # ══════════════════════════════════════════════════════════
 # BM25Retriever
 # ══════════════════════════════════════════════════════════
-from src.bm25_retriever import BM25Retriever
+
 
 DOCS = [
     "universal remote control infrared blaster",
@@ -145,7 +147,7 @@ def test_bm25_irrelevant_query():
 # ══════════════════════════════════════════════════════════
 # InfoNCE Loss
 # ══════════════════════════════════════════════════════════
-from src.loss import infonce_loss
+
 
 def test_infonce_loss_scalar():
     q = torch.randn(4, 64)

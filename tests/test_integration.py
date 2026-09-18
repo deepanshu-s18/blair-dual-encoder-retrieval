@@ -9,7 +9,12 @@ sys.path.insert(0, '.')
 import pytest
 import numpy as np
 import torch
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+from src.bm25_retriever import BM25Retriever
+from src.dense_retriever import DenseRetriever
+from src.loss import infonce_loss
+from src.metrics import hits_at_k, mrr, ndcg_at_k, recall_at_k
 
 # ── Synthetic data ─────────────────────────────────────────
 CORPUS_IDS = [f'P{i}' for i in range(10)]
@@ -38,7 +43,7 @@ TRUE_IDS = ['P7', 'P3', 'P2', 'P4', 'P5']  # ground truth
 # ══════════════════════════════════════════════════════════
 # Integration Test 1: Metrics pipeline
 # ══════════════════════════════════════════════════════════
-from src.metrics import ndcg_at_k, recall_at_k, mrr, hits_at_k
+
 
 def test_metrics_pipeline_perfect():
     """All queries retrieve correct product at rank 1."""
@@ -73,7 +78,7 @@ def test_metrics_pipeline_partial():
 # ══════════════════════════════════════════════════════════
 # Integration Test 2: DenseRetriever pipeline (mocked FAISS)
 # ══════════════════════════════════════════════════════════
-from src.dense_retriever import DenseRetriever
+
 
 def test_dense_retrieval_pipeline():
     """Full encode→index→retrieve pipeline with mocked FAISS."""
@@ -128,7 +133,7 @@ def test_dense_retrieval_top1_correct():
 # ══════════════════════════════════════════════════════════
 # Integration Test 3: BM25 pipeline
 # ══════════════════════════════════════════════════════════
-from src.bm25_retriever import BM25Retriever
+
 
 def test_bm25_pipeline_builds_and_retrieves():
     r = BM25Retriever(CORPUS_IDS, CORPUS_DOCS)
@@ -156,12 +161,11 @@ def test_bm25_pipeline_ndcg_computable():
 # ══════════════════════════════════════════════════════════
 # Integration Test 4: InfoNCE loss pipeline
 # ══════════════════════════════════════════════════════════
-from src.loss import infonce_loss
+
 
 def test_infonce_full_training_step():
     """Simulate one training step: forward + backward + optimizer."""
-    from src.encoder import MeanPooling
-    import torch.nn as nn
+
 
     B, D = 8, 128
     query_embs = torch.randn(B, D, requires_grad=True)

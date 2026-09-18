@@ -393,6 +393,55 @@ Product embeddings are computed once and reused for every query.
 Adding a new product = encoding one 768-dim vector — no retraining required.
 Query latency is O(1) with respect to corpus size when using FAISS ANN.
 
+
+---
+
+## Deployed as MCP Tool in AlphaForge Multi-Agent System
+
+This retriever is integrated as a production MCP (Model Context Protocol) tool
+inside **[AlphaForge](../Tower/alphaforge/)** — an autonomous market-research
+agent system built with LangGraph.
+
+### Integration Architecture
+
+```
+AlphaForge ReportAgent
+        │
+        ▼
+  MCP stdio call
+        │
+        ▼
+  mcp-retrieval server (FastMCP)
+  └── semantic_search_tool(query, k)
+        │
+        ├── TfidfRetriever (default, offline, deterministic)
+        └── DenseRetriever (plug-in slot)
+                └── BLaIR fine-tuned BGE checkpoint
+                    (BAAI/bge-base-en-v1.5 + domain fine-tuning)
+```
+
+The `DenseRetriever` in AlphaForge's
+[`mcp_servers/retrieval/server.py`](../Tower/alphaforge/src/alphaforge/mcp_servers/retrieval/server.py)
+accepts an injectable encoder function — the BLaIR checkpoint drops in with:
+
+```python
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer("BAAI/bge-base-en-v1.5")  # or your fine-tuned checkpoint
+retriever = DenseRetriever(corpus, encoder=lambda text: model.encode(text, normalize_embeddings=True))
+```
+
+### Why This Matters
+
+- **Same model, two deployment contexts**: BLaIR's retriever works as both a
+  standalone research system and as a live MCP tool inside an agentic pipeline.
+- **Protocol-tested**: AlphaForge's `test_mcp_protocol.py` exercises the full
+  stdio JSON-RPC handshake — "connectable from Claude Desktop" is a tested
+  claim, not a hope.
+- **Honest report grounding**: the retrieval tool is called during report
+  generation to pull relevant earnings-call and filing context, reducing the
+  risk of fabricated citations in agent output.
+
+
 ---
 
 ## Data-Scale Curve (BiEncoder vs DualEncoder)
