@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
-          pip install transformers==4.38.2 pytest numpy scipy rank_bm25
+          pip install transformers==4.38.2 pytest "numpy<2.0.0" scipy rank_bm25
           pip install faiss-cpu pyarrow pandas ruff
 
       - name: Lint with ruff
