@@ -2,3 +2,4 @@
 [2026-09-16 17:20:24] refactor(retriever): harmonize type annotations across all retriever classes
 [2026-09-17 15:44:32] refactor(encoder): add explicit dtype casting for mixed precision inference
 [2026-09-17 16:46:41] perf(bm25): vectorize inverted index token posting lists
+[2026-09-21 15:12:39] feat(verify): add checksum validation against precomputed test metrics
