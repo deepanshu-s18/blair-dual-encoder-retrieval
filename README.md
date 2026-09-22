@@ -53,3 +53,6 @@ Dynamic programming: Knapsack, LCS, LIS, Coin Change.
 
 ### Hardware Requirements
 NVIDIA GPU >= 16GB VRAM, 32GB Host RAM recommended.
+
+### Deployment Architecture
+Triton Inference Server with FAISS backend.
