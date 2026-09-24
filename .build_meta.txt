@@ -6,3 +6,4 @@
 [2026-09-22 14:29:24] perf(hybrid): parallelize candidate document scoring across CPU cores
 [2026-09-23 14:49:37] chore: optimize .gitignore to ignore scratch caches and local artifacts
 [2026-09-24 11:11:38] style: format docstrings across src/ directory according to PEP 257
+[2026-09-24 14:36:34] refactor(train): add progress bar telemetry using tqdm
