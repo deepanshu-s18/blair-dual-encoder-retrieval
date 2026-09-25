@@ -56,3 +56,6 @@ NVIDIA GPU >= 16GB VRAM, 32GB Host RAM recommended.
 
 ### Deployment Architecture
 Triton Inference Server with FAISS backend.
+
+### Kaggle Reproduction
+One-click reproduction available in `kaggle_notebook.ipynb`.
