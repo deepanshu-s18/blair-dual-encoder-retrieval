@@ -59,3 +59,12 @@ Triton Inference Server with FAISS backend.
 
 ### Kaggle Reproduction
 One-click reproduction available in `kaggle_notebook.ipynb`.
+
+## Citations
+```bibtex
+@article{singh2026blair,
+  title={BLaIR Dual-Encoder Retrieval on Amazon Catalog},
+  author={Singh, Deepanshu},
+  year={2026}
+}
+```
