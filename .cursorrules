@@ -1,0 +1,9 @@
+# Cursor Rules for Dense Retrieval & Search Systems
+# Standards for BLaIR (Dual-Encoder Dense Product Retrieval)
+
+rules:
+  - "Always enforce type annotations and docstrings on embedding encoders and similarity index loaders."
+  - "Use FAISS IndexFlatIP for exact cosine/inner-product similarity search over normalized embeddings."
+  - "All model transformations and contrastive loss (InfoNCE) training steps must include unit tests verifying gradient flow and dimension alignment."
+  - "Never push model weights or sensitive tokens to Git; store artifacts in S3 or Hugging Face Hub."
+  - "Ensure code generated via AI coding assistants is strictly verified against the 43-test test suite before pull requests."
